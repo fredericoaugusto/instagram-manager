@@ -9,10 +9,10 @@
 <body>
     <header>
         <h1>Gerenciador de Instagram</h1>
-        <p>Carregue seus arquivos <code>followers_1.json</code> e <code>following.json</code> para começar.</p>
     </header>
 
     <div class="controls">
+        <p>Carregue seus arquivos <code>followers_1.json</code> e <code>following.json</code> para começar. Isso só é necessário na primeira vez.</p>
         <div class="file-input">
             <label for="following-file">1. Carregar 'following.json':</label>
             <input type="file" id="following-file" accept=".json">
@@ -23,43 +23,46 @@
         </div>
     </div>
 
-    <div class="tabs">
-        <button class="tab-button active" onclick="showTab('following')">Seguindo</button>
-        <button class="tab-button" onclick="showTab('followers')">Seguidores</button>
-    </div>
+    <div class="main-content" style="display: none;">
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('following')">Seguindo</button>
+            <button class="tab-button" onclick="showTab('followers')">Seguidores</button>
+            <button onclick="clearDataAndReload()" class="danger-button">Limpar e Recarregar Dados</button>
+        </div>
 
-    <div id="following" class="kanban-container active">
-        <h2>Você está seguindo (<span id="following-count">0</span>)</h2>
-        <div class="kanban">
-            <div class="kanban-column" id="following-later">
-                <h3>Ver Mais Tarde</h3>
-                <div class="cards" data-column="following-later"></div>
-            </div>
-            <div class="kanban-column" id="following-keep">
-                <h3>Continuar Seguindo ✅</h3>
-                <div class="cards" data-column="following-keep"></div>
-            </div>
-            <div class="kanban-column" id="following-unfollow">
-                <h3>Parar de Seguir ❌</h3>
-                <div class="cards" data-column="following-unfollow"></div>
+        <div id="following" class="kanban-container active">
+            <h2>Você está seguindo (<span id="following-count">0</span>)</h2>
+            <div class="kanban">
+                <div class="kanban-column" id="following-later">
+                    <h3>Ver Mais Tarde</h3>
+                    <div class="cards" data-column="following-later"></div>
+                </div>
+                <div class="kanban-column" id="following-keep">
+                    <h3>Continuar Seguindo ✅</h3>
+                    <div class="cards" data-column="following-keep"></div>
+                </div>
+                <div class="kanban-column" id="following-unfollow">
+                    <h3>Parar de Seguir ❌</h3>
+                    <div class="cards" data-column="following-unfollow"></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="followers" class="kanban-container">
-        <h2>Seus Seguidores (<span id="followers-count">0</span>)</h2>
-        <div class="kanban">
-            <div class="kanban-column" id="followers-later">
-                <h3>Ver Mais Tarde</h3>
-                <div class="cards" data-column="followers-later"></div>
-            </div>
-            <div class="kanban-column" id="followers-keep">
-                <h3>Manter Seguidor ✅</h3>
-                <div class="cards" data-column="followers-keep"></div>
-            </div>
-            <div class="kanban-column" id="followers-remove">
-                <h3>Remover dos Seguidores ❌</h3>
-                <div class="cards" data-column="followers-remove"></div>
+        <div id="followers" class="kanban-container">
+            <h2>Seus Seguidores (<span id="followers-count">0</span>)</h2>
+            <div class="kanban">
+                 <div class="kanban-column" id="followers-later">
+                    <h3>Ver Mais Tarde</h3>
+                    <div class="cards" data-column="followers-later"></div>
+                </div>
+                <div class="kanban-column" id="followers-keep">
+                    <h3>Manter Seguidor ✅</h3>
+                    <div class="cards" data-column="followers-keep"></div>
+                </div>
+                <div class="kanban-column" id="followers-remove">
+                    <h3>Remover dos Seguidores ❌</h3>
+                    <div class="cards" data-column="followers-remove"></div>
+                </div>
             </div>
         </div>
     </div>
