@@ -5,69 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciador de Instagram</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Gerenciador de Instagram</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Gerenciador de Instagram</h1>
+            <p class="subtitle">Sua ferramenta pessoal para análise e organização de seguidores.</p>
+        </header>
 
-    <div class="controls">
-        <p>Carregue seus arquivos <code>followers_1.json</code> e <code>following.json</code> para começar. Isso só é necessário na primeira vez.</p>
-        <div class="file-input">
-            <label for="following-file">1. Carregar 'following.json':</label>
-            <input type="file" id="following-file" accept=".json">
-        </div>
-        <div class="file-input">
-            <label for="followers-file">2. Carregar 'followers.json':</label>
-            <input type="file" id="followers-file" accept=".json">
-        </div>
-    </div>
-
-    <div class="main-content" style="display: none;">
-        <div class="tabs">
-            <button class="tab-button active" onclick="showTab('following')">Seguindo</button>
-            <button class="tab-button" onclick="showTab('followers')">Seguidores</button>
-            <button onclick="clearDataAndReload()" class="danger-button">Limpar e Recarregar Dados</button>
-        </div>
-
-        <div id="following" class="kanban-container active">
-            <h2>Você está seguindo (<span id="following-count">0</span>)</h2>
-            <div class="kanban">
-                <div class="kanban-column" id="following-later">
-                    <h3>Ver Mais Tarde</h3>
-                    <div class="cards" data-column="following-later"></div>
+        <div class="controls">
+            <p>Carregue seus arquivos <code>followers_1.json</code> e <code>following.json</code> para começar. Isso só é necessário na primeira vez.</p>
+            <div class="file-input-group">
+                <div class="file-input">
+                    <label for="following-file">1. Carregar 'following.json'</label>
+                    <input type="file" id="following-file" accept=".json">
                 </div>
-                <div class="kanban-column" id="following-keep">
-                    <h3>Continuar Seguindo ✅</h3>
-                    <div class="cards" data-column="following-keep"></div>
-                </div>
-                <div class="kanban-column" id="following-unfollow">
-                    <h3>Parar de Seguir ❌</h3>
-                    <div class="cards" data-column="following-unfollow"></div>
+                <div class="file-input">
+                    <label for="followers-file">2. Carregar 'followers.json'</label>
+                    <input type="file" id="followers-file" accept=".json">
                 </div>
             </div>
         </div>
 
-        <div id="followers" class="kanban-container">
-            <h2>Seus Seguidores (<span id="followers-count">0</span>)</h2>
-            <div class="kanban">
-                 <div class="kanban-column" id="followers-later">
-                    <h3>Ver Mais Tarde</h3>
-                    <div class="cards" data-column="followers-later"></div>
+        <div class="main-content" style="display: none;">
+            <div class="summary-stats">
+                <div>Seguidores: <span id="live-followers-count">0</span></div>
+                <div>Seguindo: <span id="live-following-count">0</span></div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('following')">Seguindo</button>
+                <button class="tab-button" onclick="showTab('followers')">Seguidores</button>
+                <button class="tab-button" onclick="showTab('not-following-me-back')">Não me seguem de volta</button>
+                <button class="tab-button" onclick="showTab('i-dont-follow-back')">Não sigo de volta</button>
+                <button onclick="clearDataAndReload()" class="danger-button">Limpar Dados</button>
+            </div>
+            
+            <div class="content-area">
+                <div id="following" class="kanban-container active">
+                    <div class="toolbar">
+                        <input type="search" class="search-input" placeholder="Buscar em 'Seguindo'...">
+                        <div class="sort-buttons">
+                            <span>Ordenar por:</span>
+                            <button class="sort-btn" data-sort="default">Padrão</button>
+                            <button class="sort-btn" data-sort="az">A-Z</button>
+                            <button class="sort-btn" data-sort="za">Z-A</button>
+                        </div>
+                    </div>
+                    <div class="kanban">
+                        <div class="kanban-column" id="following-later"><h3>Ver Mais Tarde <span class="column-count">(0)</span></h3><div class="cards" data-column="following-later"></div></div>
+                        <div class="kanban-column" id="following-keep"><h3>Continuar Seguindo ✅ <span class="column-count">(0)</span></h3><div class="cards" data-column="following-keep"></div></div>
+                        <div class="kanban-column" id="following-unfollow"><h3>Parar de Seguir ❌ <span class="column-count">(0)</span></h3><div class="cards" data-column="following-unfollow"></div></div>
+                    </div>
                 </div>
-                <div class="kanban-column" id="followers-keep">
-                    <h3>Manter Seguidor ✅</h3>
-                    <div class="cards" data-column="followers-keep"></div>
+
+                <div id="followers" class="kanban-container">
+                    <div class="toolbar">
+                        <input type="search" class="search-input" placeholder="Buscar em 'Seguidores'...">
+                        <div class="sort-buttons">
+                            <span>Ordenar por:</span>
+                            <button class="sort-btn" data-sort="default">Padrão</button>
+                            <button class="sort-btn" data-sort="az">A-Z</button>
+                            <button class="sort-btn" data-sort="za">Z-A</button>
+                        </div>
+                    </div>
+                    <div class="kanban">
+                        <div class="kanban-column" id="followers-later"><h3>Ver Mais Tarde <span class="column-count">(0)</span></h3><div class="cards" data-column="followers-later"></div></div>
+                        <div class="kanban-column" id="followers-keep"><h3>Manter Seguidor ✅ <span class="column-count">(0)</span></h3><div class="cards" data-column="followers-keep"></div></div>
+                        <div class="kanban-column" id="followers-remove"><h3>Remover Seguidor ❌ <span class="column-count">(0)</span></h3><div class="cards" data-column="followers-remove"></div></div>
+                    </div>
                 </div>
-                <div class="kanban-column" id="followers-remove">
-                    <h3>Remover dos Seguidores ❌</h3>
-                    <div class="cards" data-column="followers-remove"></div>
+                
+                <div id="not-following-me-back" class="kanban-container">
+                    <div class="toolbar">
+                        <input type="search" class="search-input" placeholder="Buscar aqui...">
+                        <div class="sort-buttons">
+                            <span>Ordenar por:</span>
+                            <button class="sort-btn" data-sort="default">Padrão</button>
+                            <button class="sort-btn" data-sort="az">A-Z</button>
+                            <button class="sort-btn" data-sort="za">Z-A</button>
+                        </div>
+                    </div>
+                    <div class="kanban">
+                        <div class="kanban-column" id="not-following-me-back-later"><h3>Analisar Depois <span class="column-count">(0)</span></h3><div class="cards" data-column="not-following-me-back-later"></div></div>
+                        <div class="kanban-column" id="not-following-me-back-keep"><h3>Manter (Não me segue) <span class="column-count">(0)</span></h3><div class="cards" data-column="not-following-me-back-keep"></div></div>
+                        <div class="kanban-column" id="not-following-me-back-unfollow"><h3>Parar de Seguir ❌ <span class="column-count">(0)</span></h3><div class="cards" data-column="not-following-me-back-unfollow"></div></div>
+                    </div>
+                </div>
+
+                <div id="i-dont-follow-back" class="kanban-container">
+                    <div class="toolbar">
+                        <input type="search" class="search-input" placeholder="Buscar aqui...">
+                        <div class="sort-buttons">
+                            <span>Ordenar por:</span>
+                            <button class="sort-btn" data-sort="default">Padrão</button>
+                            <button class="sort-btn" data-sort="az">A-Z</button>
+                            <button class="sort-btn" data-sort="za">Z-A</button>
+                        </div>
+                    </div>
+                    <div class="kanban">
+                        <div class="kanban-column" id="i-dont-follow-back-later"><h3>Analisar Depois <span class="column-count">(0)</span></h3><div class="cards" data-column="i-dont-follow-back-later"></div></div>
+                        <div class="kanban-column" id="i-dont-follow-back-follow"><h3>Seguir de Volta ✅ <span class="column-count">(0)</span></h3><div class="cards" data-column="i-dont-follow-back-follow"></div></div>
+                        <div class="kanban-column" id="i-dont-follow-back-ignore"><h3>Ignorar (Manter assim) <span class="column-count">(0)</span></h3><div class="cards" data-column="i-dont-follow-back-ignore"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/MultiDrag.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
